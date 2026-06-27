@@ -1,0 +1,86 @@
+# ─── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+.Python
+
+# ─── Virtual Environments ─────────────────────────────────────────────────────
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ─── IDE / Editor ─────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# ─── OS Generated ─────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ─── Backend — Runtime / Generated ───────────────────────────────────────────
+backend/uploads/
+backend/assets/ela/
+backend/assets/noise/
+backend/assets/annotated/
+backend/__pycache__/
+backend/pipeline/__pycache__/
+backend/services/__pycache__/
+backend/.env
+backend/.env.*
+
+# ─── Backend — Model (large binary, download separately) ──────────────────────
+# Uncomment below to exclude model from git (recommended for large files)
+# backend/model/*.pt
+# If using Git LFS, keep them tracked but via LFS
+
+# ─── Frontend — Dependencies & Build ─────────────────────────────────────────
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+frontend/.turbo/
+
+# ─── Dataset & Training Artifacts (large, not needed at runtime) ──────────────
+dataset/
+dataset.zip
+aadhaar_training_results.zip
+*.cache
+runs/
+
+# ─── Logs & Temp ──────────────────────────────────────────────────────────────
+*.log
+*.tmp
+tmp/
+temp/
+logs/
+
+# ─── Jupyter Notebooks — Checkpoints ─────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ─── Misc ─────────────────────────────────────────────────────────────────────
+prompt.txt
+*.bak
+*.orig
