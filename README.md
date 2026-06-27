@@ -289,13 +289,40 @@ Runs the full fraud detection pipeline.
 
 ## 📁 Training
 
-The YOLOv8 model was trained using the notebook:
-```
+## 📁 Model Training
+
+The YOLOv8 object detection model was trained using the notebook:
+
+```text
 Aadhaar_YOLOv8_Training.ipynb
 ```
 
-Training dataset is available in `dataset/` (excluded from git due to size).  
-Training results and weights are in `aadhaar_training_results.zip`.
+### Dataset
+
+The model was trained on the **Aadhar Card Entity Detection** dataset provided by **Roboflow Universe**.
+
+- **Dataset:** https://universe.roboflow.com/jizo/aadhar-card-entity-detection/dataset/1
+- **Platform:** Roboflow Universe
+- **Task:** Object Detection
+- **Model:** YOLOv8
+
+The dataset contains annotated Aadhaar card images with bounding boxes for important fields such as:
+
+| Class |
+|--------|
+| Aadhaar Number |
+| Name |
+| Date of Birth |
+| Gender |
+| Address |
+
+Training was performed using **Ultralytics YOLOv8**, and the exported weights are stored as:
+
+```text
+backend/model/best.pt
+```
+
+> The original dataset is excluded from this repository due to its size and Roboflow licensing. Please download it directly from Roboflow Universe if you wish to retrain the model.
 
 ---
 
@@ -328,6 +355,20 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 | `Fields detected in wrong positions` | Check CLASS_NAMES in `yolo_service.py` match your model |
 
 ---
+---
+
+## 📚 Dataset Citation
+
+If you use this project or retrain the model, please credit the original dataset creators.
+
+**Dataset:**
+Aadhar Card Entity Detection Dataset
+
+**Source:**
+https://universe.roboflow.com/jizo/aadhar-card-entity-detection/dataset/1
+
+**Platform:**
+Roboflow Universe
 
 ## 📄 License
 
@@ -341,6 +382,7 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 - [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) — OCR engine
 - [UIDAI](https://uidai.gov.in) — Aadhaar specification & Verhoeff checksum documentation
 - [FastAPI](https://fastapi.tiangolo.com) — Modern Python web framework
+- [Roboflow Universe – Aadhar Card Entity Detection Dataset](https://universe.roboflow.com/jizo/aadhar-card-entity-detection/dataset/1) — Dataset used for training the YOLOv8 field detection model.
 
 ---
 
