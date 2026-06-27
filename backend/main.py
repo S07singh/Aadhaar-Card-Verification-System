@@ -24,7 +24,6 @@ from pipeline.forgery_scorer import compute_fraud_score, compute_cross_side_simi
 # Services
 from services.yolo_service import run_yolo_detection, crop_field_regions
 from services.ocr_service import extract_all_fields
-from services.qr_service import decode_qr, cross_validate_ocr_qr
 from services.verhoeff import validate_aadhaar
 
 # ── Configuration ──────────────────────────────────────────────────────────────
@@ -42,7 +41,7 @@ ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 # ── FastAPI App ────────────────────────────────────────────────────────────────
 app = FastAPI(
     title="Aadhaar Card Verification API",
-    description="7-layer fraud detection: YOLO + PaddleOCR + ELA + Noise + EXIF + QR + Checksum",
+    description="Fraud detection pipeline: YOLO + PaddleOCR + ELA + Noise + EXIF + Checksum",
     version="1.0.0",
 )
 
@@ -94,16 +93,14 @@ async def analyze_card(
     back_image: UploadFile = File(..., description="Back side of Aadhaar card"),
 ):
     """
-    Full fraud detection pipeline:
+    Fraud detection pipeline:
     1. Save uploaded images
     2. YOLO field detection on front
     3. PaddleOCR on each detected field
-    4. QR decode from back image
-    5. Cross-validate OCR ↔ QR
-    6. Verhoeff checksum
-    7. ELA, Noise, EXIF forensics
-    8. Compute weighted fraud score
-    9. Return structured JSON response
+    4. Verhoeff checksum
+    5. ELA, Noise, EXIF forensics
+    6. Compute weighted fraud score
+    7. Return structured JSON response
     """
     front_path = None
     back_path = None
@@ -123,13 +120,7 @@ async def analyze_card(
         crops = crop_field_regions(front_path, detections)
         ocr_data = extract_all_fields(crops)
 
-        # ── Step 4: QR Decode (back image) ────────────────────────────────────
-        qr_result = decode_qr(back_path)
-
-        # ── Step 5: Cross-Validate OCR ↔ QR ───────────────────────────────────
-        qr_mismatches = cross_validate_ocr_qr(ocr_data, qr_result)
-
-        # ── Step 6: Verhoeff Checksum ─────────────────────────────────────────
+        # ── Step 4: Verhoeff Checksum ─────────────────────────────────────────
         aadhaar_number = ocr_data.get("AADHAR_NUMBER", "")
         checksum_result = validate_aadhaar(aadhaar_number)
 
@@ -162,7 +153,7 @@ async def analyze_card(
             exif_result=exif_result,
             yolo_tamper=is_tampered,
             yolo_tamper_confidence=yolo_tamper_conf,
-            qr_mismatches=qr_mismatches,
+            qr_mismatches=[],
             checksum_valid=checksum_result["valid"],
             cross_side_result=cross_side_result,
         )
@@ -193,19 +184,7 @@ async def analyze_card(
                 "address": ocr_data.get("ADDRESS", ""),
             },
 
-            # QR Code Data
-            "qr_data": {
-                "decoded": "error" not in qr_result,
-                "qr_type": qr_result.get("qr_type", "unknown"),
-                "name": qr_result.get("name", ""),
-                "dob": qr_result.get("dob", ""),
-                "gender": qr_result.get("gender", ""),
-                "address": qr_result.get("address", ""),
-                "error": qr_result.get("error"),
-            },
-
             # Validation results
-            "qr_mismatches": qr_mismatches,
             "checksum": {
                 "valid": checksum_result["valid"],
                 "reason": checksum_result["reason"],
