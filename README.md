@@ -287,8 +287,6 @@ Runs the full fraud detection pipeline.
 
 ---
 
-## 📁 Training
-
 ## 📁 Model Training
 
 The YOLOv8 object detection model was trained using the notebook:
@@ -354,7 +352,6 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 | `ccache warning from Paddle` | Harmless — safely ignore it |
 | `Fields detected in wrong positions` | Check CLASS_NAMES in `yolo_service.py` match your model |
 
----
 ---
 
 ## 📚 Dataset Citation
