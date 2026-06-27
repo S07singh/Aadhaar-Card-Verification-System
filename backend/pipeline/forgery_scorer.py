@@ -116,10 +116,7 @@ def compute_fraud_score(
         cross_score = min(float(cross_side_result.get("risk_score", 0)), 100.0)
         cross_reason = cross_side_result.get("reason", "")
 
-    # QR mismatches: each field mismatch = 25 points (max 100)
-    qr_score = min(len(qr_mismatches) * 25.0, 100.0)
 
-    # Checksum
     checksum_score = 0.0 if checksum_valid else 100.0
 
     # --- Base weighted score ---
@@ -144,8 +141,6 @@ def compute_fraud_score(
         boost += 18.0  # Near-identical front/back
     elif cross_score >= 55:
         boost += 8.0
-    if len(qr_mismatches) >= 2:
-        boost += 8.0   # Multiple field mismatches
 
     final_score = float(np.clip(base_score + boost, 0.0, 100.0))
 
@@ -176,7 +171,6 @@ def compute_fraud_score(
         "exif_score": round(exif_score, 1),
         "yolo_tamper_score": round(yolo_score, 1),
         "cross_side_score": round(cross_score, 1),
-        "qr_mismatch_score": round(qr_score, 1),
         "checksum_score": round(checksum_score, 1),
         "boost_applied": round(boost, 1),
     }
@@ -193,8 +187,6 @@ def compute_fraud_score(
         fraud_indicators.append(f"YOLO tamper detection confidence: {round(yolo_tamper_confidence * 100)}%")
     if cross_score >= 55:
         fraud_indicators.append(f"Cross-side similarity: {cross_reason}")
-    for field in qr_mismatches:
-        fraud_indicators.append(f"QR mismatch: printed {field} ≠ QR code {field}")
     if not checksum_valid:
         fraud_indicators.append("Invalid Aadhaar number — Verhoeff checksum failed")
     if boost >= 12:
