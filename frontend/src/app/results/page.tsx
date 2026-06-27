@@ -204,7 +204,6 @@ export default function ResultsPage() {
               "Noise Analysis": result.score_breakdown.noise_score,
               "EXIF Forensics": result.score_breakdown.exif_score,
               "YOLO Tamper": result.score_breakdown.yolo_tamper_score,
-              "QR Mismatch": result.score_breakdown.qr_mismatch_score,
               "Checksum": result.score_breakdown.checksum_score,
             }).map(([label, score]) => (
               <ScoreBar key={label} label={label} score={score} />
@@ -238,29 +237,8 @@ export default function ResultsPage() {
           />
         </div>
 
-        {/* QR + Checksum + EXIF Row */}
+        {/* Checksum + EXIF + Cross-Side Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {/* QR Data */}
-          <div className="glass rounded-2xl p-5">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-base">📷</span>
-              <h3 className="text-sm font-semibold text-white/80">QR Code</h3>
-              <div className={`ml-auto text-xs px-2 py-0.5 rounded-full border ${result.qr_data.decoded ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/30" : "text-red-400 bg-red-500/10 border-red-500/30"}`}>
-                {result.qr_data.decoded ? "Decoded" : "Failed"}
-              </div>
-            </div>
-            {result.qr_data.decoded ? (
-              <div className="space-y-2 text-sm">
-                {result.qr_data.name && <QrField label="Name" value={result.qr_data.name} mismatch={result.qr_mismatches.includes("Name")} />}
-                {result.qr_data.dob && <QrField label="DOB" value={result.qr_data.dob} mismatch={result.qr_mismatches.includes("Date of Birth")} />}
-                {result.qr_data.gender && <QrField label="Gender" value={result.qr_data.gender} mismatch={result.qr_mismatches.includes("Gender")} />}
-              </div>
-            ) : (
-              <p className="text-xs text-white/30 italic">{result.qr_data.error || "QR code not found or unreadable"}</p>
-            )}
-          </div>
-
-          {/* Checksum */}
           <div className="glass rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-4">
               <span className="text-base">🔐</span>
@@ -369,17 +347,6 @@ function ScoreBar({ label, score }: { label: string; score: number }) {
           style={{ width: `${score}%`, backgroundColor: color }}
         />
       </div>
-    </div>
-  );
-}
-
-function QrField({ label, value, mismatch }: { label: string; value: string; mismatch: boolean }) {
-  return (
-    <div className={`flex justify-between items-center rounded-lg px-3 py-2 ${mismatch ? "bg-red-500/5 border border-red-500/20" : "bg-white/3"}`}>
-      <span className="text-xs text-white/40">{label}</span>
-      <span className={`text-xs font-medium ${mismatch ? "text-red-400" : "text-white/75"}`}>
-        {mismatch ? "⚠ " : ""}{value}
-      </span>
     </div>
   );
 }

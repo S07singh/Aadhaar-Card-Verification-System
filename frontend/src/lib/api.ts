@@ -14,7 +14,6 @@ export interface AnalysisResult {
     noise_score: number;
     exif_score: number;
     yolo_tamper_score: number;
-    qr_mismatch_score: number;
     checksum_score: number;
   };
   ocr_data: {
@@ -24,16 +23,6 @@ export interface AnalysisResult {
     date_of_birth: string;
     address: string;
   };
-  qr_data: {
-    decoded: boolean;
-    qr_type: string;
-    name: string;
-    dob: string;
-    gender: string;
-    address: string;
-    error?: string;
-  };
-  qr_mismatches: string[];
   checksum: {
     valid: boolean;
     reason: string;
@@ -73,6 +62,12 @@ export interface AnalysisResult {
       camera_model?: string;
       reasons: string[];
       raw_fields: Record<string, string>;
+    };
+    cross_side: {
+      risk_score: number;
+      available: boolean;
+      reason: string;
+      correlation?: number;
     };
   };
 }

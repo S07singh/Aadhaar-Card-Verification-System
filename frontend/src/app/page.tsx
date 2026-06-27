@@ -79,7 +79,7 @@ export default function UploadPage() {
             <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
             </svg>
-            7-Layer Fraud Detection
+            6-Layer Fraud Detection
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">
             <span className="gradient-text">Aadhaar Card</span>
@@ -88,7 +88,7 @@ export default function UploadPage() {
           </h1>
           <p className="text-white/50 text-lg max-w-xl mx-auto leading-relaxed">
             Upload both sides of your Aadhaar card. Our AI analyzes it through
-            YOLO detection, PaddleOCR, QR decoding, and forensic analysis.
+            YOLO detection, PaddleOCR, and forensic analysis.
           </p>
         </div>
 
@@ -168,11 +168,10 @@ export default function UploadPage() {
         </button>
 
         {/* Pipeline Steps */}
-        <div className="w-full max-w-3xl mt-10 grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="w-full max-w-3xl mt-10 grid grid-cols-1 md:grid-cols-3 gap-3">
           {[
             { icon: "🔍", label: "YOLO Detection", desc: "Field localization" },
             { icon: "📝", label: "PaddleOCR", desc: "Text extraction" },
-            { icon: "📷", label: "QR Decode", desc: "Data verification" },
             { icon: "🧪", label: "Forensics", desc: "ELA + Noise + EXIF" },
           ].map((item) => (
             <div key={item.label} className="glass rounded-xl p-4 text-center">
